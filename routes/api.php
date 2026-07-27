@@ -17,9 +17,6 @@ Route::get('/user', function (Request $request) {
 
 use App\Http\Controllers\Auth\SocialiteController;
 
-Route::prefix('auth')->group(function () {
-    Route::get('/google/redirect', [SocialiteController::class, 'redirect']);
-    Route::get('/google/callback', [SocialiteController::class, 'callback']);
 
 // Authentication Routes
 
@@ -31,6 +28,11 @@ Route::prefix('auth')->controller(AuthController::class)->group(function () {
     Route::middleware('auth:api')->group(function () {
         Route::post('/logout', 'logout');
     });
+
+
+    Route::get('/google/redirect', [SocialiteController::class, 'redirect']);
+    Route::get('/google/callback', [SocialiteController::class, 'callback']);
+
 });
 
 

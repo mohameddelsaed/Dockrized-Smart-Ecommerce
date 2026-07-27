@@ -1,45 +1,35 @@
 <?php
 
 namespace App\Services;
-use App\Repositories\UserRepository;
-use Laravel\Socialite\Facades\Socialite;
 
+use App\Models\User;
 use Illuminate\Support\Str;
+use Laravel\Socialite\Facades\Socialite;
 
 class SocialAuthService
 {
-    public function __construct(
-        private UserRepository $userRepository,
-        private AuthService $authService
-
-    ) {}
-
-
-    public function callback()
+    public function callback(): array
     {
         $googleUser = Socialite::driver('google')
             ->stateless()
             ->user();
 
-
-        $user = $this->userRepository->findByEmail(
-            $googleUser->getEmail()
-        );
-
-
-        if (! $user) {
-
-            $user = $this->userRepository->create([
-                'name' => $googleUser->getName(),
+        $user = User::firstOrCreate(
+            [
                 'email' => $googleUser->getEmail(),
-                'password' => bcrypt(Str::random(40)),
+            ],
+            [
+                'first_name' => $nameParts[0] ?? 'User',
+                'last_name' => $nameParts[1] ?? '',
+                'password' => Str::random(40),
                 'email_verified_at' => now(),
-            ]);
-
-        }
-
-
-        return $this->authService->loginResponse($user);
+            ]
+        );
+        return [
+            'message' => 'Login successful.',
+            'user' => $user,
+            'token' => $user->createToken('API Token')->plainTextToken,
+        ];
     }
 
     public function redirect()
