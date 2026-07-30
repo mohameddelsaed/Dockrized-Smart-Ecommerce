@@ -24,6 +24,7 @@ class CheckoutRequest extends FormRequest
     {
         return [
             'method' => ['required', 'in:card,cash_on_delivery'],
+            'amount' => ['required', 'numeric', 'min:0.01'],
 
             'card_number' => ['required_if:method,card', 'digits:16'],
             'expiry' => ['required_if:method,card', 'date_format:m/y'],

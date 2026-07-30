@@ -14,7 +14,7 @@ class CheckoutController extends Controller
     {
         $payment = Payment::create([
             'order_id' => $order->id,
-            'amount' => $order->total,
+            'amount' => $request->validated('amount'),
             'method' => $request->validated('method'),
             'status' => PaymentStatus::Succeeded,
             'transaction_id' => 'FAKE-' . strtoupper(uniqid()),
