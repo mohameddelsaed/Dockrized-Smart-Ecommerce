@@ -8,28 +8,25 @@ use Laravel\Socialite\Facades\Socialite;
 
 class SocialAuthService
 {
-    public function callback(): array
+    public function callback(): User
     {
         $googleUser = Socialite::driver('google')
             ->stateless()
             ->user();
 
-        $user = User::firstOrCreate(
+        $nameParts = explode(' ', trim($googleUser->getName()), 2);
+
+        return User::firstOrCreate(
             [
                 'email' => $googleUser->getEmail(),
             ],
             [
-                'first_name' => $nameParts[0] ?? 'User',
-                'last_name' => $nameParts[1] ?? '',
-                'password' => Str::random(40),
+                'first_name'        => $nameParts[0] ?? 'User',
+                'last_name'         => $nameParts[1] ?? '',
+                'password'          => Str::random(40), // Automatically hashed by the model
                 'email_verified_at' => now(),
             ]
         );
-        return [
-            'message' => 'Login successful.',
-            'user' => $user,
-            'token' => $user->createToken('API Token')->plainTextToken,
-        ];
     }
 
     public function redirect()
