@@ -35,7 +35,7 @@ Route::prefix('auth')->controller(AuthController::class)->group(function () {
 
 });
 
-Route::post('/orders/{order}/checkout', [\App\Http\Controllers\CheckoutController::class, 'checkout']);
+Route::post('/orders/{order}/checkout', [\App\Http\Controllers\PaymentController::class, 'pay']);
 
 
 Route::prefix('auth')->controller(PasswordController::class)->group(function () {
