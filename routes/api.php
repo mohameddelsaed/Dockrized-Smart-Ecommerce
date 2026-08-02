@@ -45,3 +45,9 @@ Route::prefix('auth')->controller(PasswordController::class)->group(function () 
     Route::post('/resend-otp', 'resendOtp');
 
 });
+
+Route::prefix('home')->group(function () {
+    Route::get('/trending-glasses', [\App\Http\Controllers\Api\Home\HomeController::class, 'trendingGlasses']);
+    Route::get('/new-arrivals', [\App\Http\Controllers\Api\Home\HomeController::class, 'newArrivals']);
+    Route::get('/recommendations', [\App\Http\Controllers\Api\Home\HomeController::class, 'recommendations']);
+});
