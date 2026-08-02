@@ -51,3 +51,5 @@ Route::prefix('home')->group(function () {
     Route::get('/new-arrivals', [\App\Http\Controllers\Api\Home\HomeController::class, 'newArrivals']);
     Route::get('/recommendations', [\App\Http\Controllers\Api\Home\HomeController::class, 'recommendations']);
 });
+
+Route::apiResource('products', \App\Http\Controllers\ProductController::class);
