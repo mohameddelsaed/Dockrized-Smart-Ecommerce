@@ -52,4 +52,12 @@ Route::prefix('home')->group(function () {
     Route::get('/recommendations', [\App\Http\Controllers\Api\Home\HomeController::class, 'recommendations']);
 });
 
+Route::middleware('auth:sanctum')->prefix('notifications')->group(function () {
+    Route::get('/', [\App\Http\Controllers\NotificationController::class, 'index']);
+    Route::get('/unread', [\App\Http\Controllers\NotificationController::class, 'unread']);
+    Route::patch('/{id}/read', [\App\Http\Controllers\NotificationController::class, 'markAsRead']);
+    Route::patch('/read-all', [\App\Http\Controllers\NotificationController::class, 'markAllAsRead']);
+    Route::delete('/{id}', [\App\Http\Controllers\NotificationController::class, 'destroy']);
+});
+
 Route::apiResource('products', \App\Http\Controllers\ProductController::class);
