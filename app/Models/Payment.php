@@ -10,7 +10,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Payment extends Model
 {
     protected $fillable = [
-        'order_id', 'amount', 'method', 'status', 'transaction_id', 'currency',
+        'order_id',
+        'amount',
+        'method',
+        'status',
+        'transaction_id',
+        'currency',
     ];
 
     protected $casts = [
