@@ -46,15 +46,6 @@ Route::prefix('auth')->controller(PasswordController::class)->group(function () 
 });
 
 
-
-
-Route::prefix('home')->group(function () {
-    Route::get('/trending-glasses', [HomeController::class, 'trendingGlasses']);
-    Route::get('/new-arrivals', [HomeController::class, 'newArrivals']);
-    Route::get('/recommendations', [HomeController::class, 'recommendations']);
-});
-
-
 // products and categories routes
 Route::get('/categories', [CategoryController::class, 'index']);
 
