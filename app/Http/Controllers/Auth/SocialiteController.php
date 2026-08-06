@@ -15,9 +15,15 @@ class SocialiteController extends Controller
 
     public function callback()
     {
-        return response()->json(
-            $this->socialAuthService->callback()
-        );
+        $user = $this->socialAuthService->callback();
+
+        $token = $user->createToken('API Token')->plainTextToken;
+
+        return response()->json([
+            'message' => 'Login successful.',
+            'user' => $user,
+            'token' => $token,
+        ]);
     }
 
     public function redirect()

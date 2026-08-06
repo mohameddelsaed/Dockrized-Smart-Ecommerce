@@ -17,9 +17,6 @@ Route::get('/user', function (Request $request) {
 
 use App\Http\Controllers\Auth\SocialiteController;
 
-Route::prefix('auth')->group(function () {
-    Route::get('/google/redirect', [SocialiteController::class, 'redirect']);
-    Route::get('/google/callback', [SocialiteController::class, 'callback']);
 
 // Authentication Routes
 
@@ -31,7 +28,14 @@ Route::prefix('auth')->controller(AuthController::class)->group(function () {
     Route::middleware('auth:api')->group(function () {
         Route::post('/logout', 'logout');
     });
+
+
+    Route::get('/google/redirect', [SocialiteController::class, 'redirect']);
+    Route::get('/google/callback', [SocialiteController::class, 'callback']);
+
 });
+
+Route::post('/orders/{order}/checkout', [\App\Http\Controllers\PaymentController::class, 'pay']);
 
 
 Route::prefix('auth')->controller(PasswordController::class)->group(function () {
@@ -40,4 +44,10 @@ Route::prefix('auth')->controller(PasswordController::class)->group(function () 
     Route::post('/reset-password', 'resetPassword');
     Route::post('/resend-otp', 'resendOtp');
 
+});
+
+Route::prefix('home')->group(function () {
+    Route::get('/trending-glasses', [\App\Http\Controllers\Api\Home\HomeController::class, 'trendingGlasses']);
+    Route::get('/new-arrivals', [\App\Http\Controllers\Api\Home\HomeController::class, 'newArrivals']);
+    Route::get('/recommendations', [\App\Http\Controllers\Api\Home\HomeController::class, 'recommendations']);
 });
