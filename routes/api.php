@@ -5,8 +5,12 @@ use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\Auth\SocialiteController;
 use App\Http\Controllers\Cart\CartController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\Product\CategoryController;
+use App\Http\Controllers\Product\ProductController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+
+
 
 // User
 Route::get('/user', function (Request $request) {
@@ -95,3 +99,12 @@ Route::middleware('auth:api')
 
         Route::delete('/remove/{productId}', 'remove');
     });
+
+
+// routes/api.php
+Route::get('/categories', [CategoryController::class, 'index']);
+
+Route::prefix('products')->group(function () {
+    Route::get('/', [ProductController::class, 'index']);
+    Route::get('/{product}', [ProductController::class, 'show']);
+});
