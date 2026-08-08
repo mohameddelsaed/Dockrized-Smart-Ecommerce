@@ -3,6 +3,12 @@
 namespace App\Http\Controllers\Product;
 
 use App\Http\Controllers\Controller;
+
+use Illuminate\Http\Request;
+
+class ProductController extends Controller
+{
+ 
 use App\Http\Requests\BrowseProductRequest;
 use App\Http\Requests\SearchProductRequest;
 use App\Http\Resources\ProductDetailResource;
@@ -40,4 +46,5 @@ class ProductController extends Controller
             new ProductDetailResource($product)
         );
     }
+
 }
