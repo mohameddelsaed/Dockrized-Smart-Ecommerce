@@ -46,8 +46,15 @@ Route::prefix('auth')->controller(PasswordController::class)->group(function () 
 
 });
 
-Route::prefix('home')->group(function () {
-    Route::get('/trending-glasses', [\App\Http\Controllers\Api\Home\HomeController::class, 'trendingGlasses']);
-    Route::get('/new-arrivals', [\App\Http\Controllers\Api\Home\HomeController::class, 'newArrivals']);
-    Route::get('/recommendations', [\App\Http\Controllers\Api\Home\HomeController::class, 'recommendations']);
+Route::middleware('auth:sanctum')->prefix('notifications')->group(function () {
+    Route::get('/', [\App\Http\Controllers\Notification\NotificationController::class, 'index']);
+    Route::get('/unread', [\App\Http\Controllers\Notification\NotificationController::class, 'unread']);
+    Route::patch('/{id}/read', [\App\Http\Controllers\Notification\NotificationController::class, 'markAsRead']);
+    Route::patch('/read-all', [\App\Http\Controllers\Notification\NotificationController::class, 'markAllAsRead']);
+    Route::delete('/{id}', [\App\Http\Controllers\Notification\NotificationController::class, 'destroy']);
 });
+
+//Admins Endpoint
+
+Route::apiResource('products', \App\Http\Controllers\Admin\ProductController::class);
+
