@@ -11,16 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('trending_glasses', function (Blueprint $table) {
+        Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->string('brand');
+            $table->foreignId('category_id')->constrained()->cascadeOnDelete();
             $table->string('name');
-            $table->string('image')->nullable();
+            $table->text('description')->nullable();
             $table->decimal('price', 10, 2);
-            $table->decimal('original_price', 10, 2)->nullable();
-            $table->decimal('rating', 2, 1)->default(0);
-            $table->unsignedInteger('reviews_count')->default(0);
-            $table->boolean('free_shipping')->default(false);
+            $table->decimal('discount_price', 10, 2)->nullable();
+            $table->unsignedInteger('stock')->default(0);
             $table->timestamps();
         });
     }
@@ -30,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('trending_glasses');
+        Schema::dropIfExists('products');
     }
 };

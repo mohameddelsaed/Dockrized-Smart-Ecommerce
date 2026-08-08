@@ -27,9 +27,7 @@ class DatabaseSeeder extends Seeder
             ]
         );
         $this->call([
-            TrendingGlassSeeder::class,
-            NewArrivalSeeder::class,
-            RecommendationForYouSeeder::class,
+            CategorySeeder::class,
             ProductSeeder::class,
         ]);
     }
