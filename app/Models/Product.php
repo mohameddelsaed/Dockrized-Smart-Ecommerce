@@ -12,25 +12,43 @@ use Illuminate\Database\Eloquent\Model;
 class Product extends Model
 {
 
-    /** @use HasFactory<\Database\Factories\ProductFactory> */
-    use HasFactory;
-
     protected $fillable = [
-        'brand',
+        'category_id',
         'name',
         'description',
-        'image',
         'price',
-        'original_price',
-        'rating',
-        'reviews_count',
+        'discount_price',
+
         'stock',
     ];
 
     protected $casts = [
         'price' => 'decimal:2',
-        'original_price' => 'decimal:2',
-        'rating' => 'decimal:1',
     ];
 
 }
+
+        'discount_price' => 'decimal:2',
+    ];
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
+    public function images()
+    {
+        return $this->hasMany(ProductImage::class);
+    }
+
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
+
+    public function cartItems()
+    {
+        return $this->hasMany(CartItem::class);
+    }
+}
+
