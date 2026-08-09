@@ -46,7 +46,7 @@ Route::prefix('auth')->controller(PasswordController::class)->group(function () 
 
 });
 
-Route::middleware('auth:sanctum')->prefix('notifications')->group(function () {
+Route::middleware('auth:api')->prefix('notifications')->group(function () {
     Route::get('/', [\App\Http\Controllers\Notification\NotificationController::class, 'index']);
     Route::get('/unread', [\App\Http\Controllers\Notification\NotificationController::class, 'unread']);
     Route::patch('/{id}/read', [\App\Http\Controllers\Notification\NotificationController::class, 'markAsRead']);
@@ -55,7 +55,7 @@ Route::middleware('auth:sanctum')->prefix('notifications')->group(function () {
 });
 
 
-Route::middleware('auth:sanctum')->prefix('orders')->group(function () {
+Route::middleware('auth:api')->prefix('orders')->group(function () {
     Route::get('/', [\App\Http\Controllers\Order\OrderController::class, 'index']);
     Route::post('/', [\App\Http\Controllers\Order\OrderController::class, 'store']);
     Route::get('/{order}', [\App\Http\Controllers\Order\OrderController::class, 'show']);
