@@ -81,11 +81,20 @@ Route::middleware('auth:sanctum')
         ]);
     });
 
+
+Route::middleware('auth:sanctum')->prefix('orders')->group(function () {
+    Route::get('/', [\App\Http\Controllers\OrderController::class, 'index']);
+    Route::post('/', [\App\Http\Controllers\OrderController::class, 'store']);
+    Route::get('/{order}', [\App\Http\Controllers\OrderController::class, 'show']);
+});
+
+
 // Admin Products
 Route::apiResource(
     'products',
     \App\Http\Controllers\Admin\ProductController::class
 );
+
 
 // Cart Routes
 Route::middleware('auth:api')
