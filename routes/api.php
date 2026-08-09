@@ -54,6 +54,13 @@ Route::middleware('auth:sanctum')->prefix('notifications')->group(function () {
     Route::delete('/{id}', [\App\Http\Controllers\Notification\NotificationController::class, 'destroy']);
 });
 
+
+Route::middleware('auth:sanctum')->prefix('orders')->group(function () {
+    Route::get('/', [\App\Http\Controllers\OrderController::class, 'index']);
+    Route::post('/', [\App\Http\Controllers\OrderController::class, 'store']);
+    Route::get('/{order}', [\App\Http\Controllers\OrderController::class, 'show']);
+});
+
 //Admins Endpoint
 
 Route::apiResource('products', \App\Http\Controllers\Admin\ProductController::class);
