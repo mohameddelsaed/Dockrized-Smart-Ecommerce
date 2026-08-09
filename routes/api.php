@@ -35,7 +35,7 @@ Route::prefix('auth')->controller(AuthController::class)->group(function () {
 
 });
 
-Route::post('/orders/{order}/checkout', [\App\Http\Controllers\PaymentController::class, 'pay']);
+Route::post('/orders/{order}/pay', [\App\Http\Controllers\PaymentController::class, 'pay']);
 
 
 Route::prefix('auth')->controller(PasswordController::class)->group(function () {
@@ -56,9 +56,9 @@ Route::middleware('auth:sanctum')->prefix('notifications')->group(function () {
 
 
 Route::middleware('auth:sanctum')->prefix('orders')->group(function () {
-    Route::get('/', [\App\Http\Controllers\OrderController::class, 'index']);
-    Route::post('/', [\App\Http\Controllers\OrderController::class, 'store']);
-    Route::get('/{order}', [\App\Http\Controllers\OrderController::class, 'show']);
+    Route::get('/', [\App\Http\Controllers\Order\OrderController::class, 'index']);
+    Route::post('/', [\App\Http\Controllers\Order\OrderController::class, 'store']);
+    Route::get('/{order}', [\App\Http\Controllers\Order\OrderController::class, 'show']);
 });
 
 //Admins Endpoint
