@@ -64,4 +64,5 @@ Route::middleware('auth:api')->prefix('orders')->group(function () {
 //Admins Endpoint
 
 Route::apiResource('products', \App\Http\Controllers\Admin\ProductController::class);
+Route::apiResource('categories', \App\Http\Controllers\CategoryController::class);
 
