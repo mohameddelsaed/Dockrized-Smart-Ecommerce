@@ -34,7 +34,13 @@ class AuthController extends Controller
 
             $this->otpService->sendOtp($user, $otp);
 
-            return success('OTP has been sent to your email. Please verify to complete registration.');
+            return success(
+            'User registered successfully. Please verify your email using the OTP sent to your email address.',
+            [
+                'user_id' => $user->id,
+                
+            ]
+        );
         } catch (\Exception $e) {
 
             // مؤقتًا عشان نشوف الخطأ الحقيقي
