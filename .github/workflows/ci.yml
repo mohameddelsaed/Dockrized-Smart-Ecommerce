@@ -1,0 +1,65 @@
+name: Smart Ecommerce CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  backend:
+    name: Backend CI
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: mbstring, bcmath, pdo_mysql, xml, intl, zip
+          coverage: none
+
+      - name: Install Composer dependencies
+        run: composer install --no-interaction --prefer-dist --no-progress
+
+      - name: Check Laravel syntax
+        run: php artisan --version
+
+      - name: Build backend Docker image
+        run: docker build -t smart-ecommerce-backend:test .
+
+  frontend:
+    name: Frontend CI
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'pnpm'
+          cache-dependency-path: FrontEnd/pnpm-lock.yaml
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - name: Install dependencies
+        working-directory: FrontEnd
+        run: pnpm install --frozen-lockfile
+
+      - name: Build frontend
+        working-directory: FrontEnd
+        run: pnpm build
+
+      - name: Build frontend Docker image
+        run: docker build -t smart-ecommerce-frontend:test ./FrontEnd
