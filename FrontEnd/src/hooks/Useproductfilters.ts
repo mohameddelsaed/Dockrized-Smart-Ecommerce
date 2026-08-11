@@ -103,8 +103,8 @@ const useProductFilters = () => {
   // here and pass it straight through as query params.
   const applyFilters = (all: Product[]): Product[] => {
     return all.filter((p) => {
-      if (filters.category.length && !filters.category.includes(p?.category)) return false;
-      if (filters.brand.length && !filters.brand.includes(p?.brand)) return false;
+      if (filters.category.length && !filters.category.includes(p.category ?? "")) return false;   
+      if (filters.brand.length && !filters.brand.includes(p.brand)) return false;
       if (filters.rating && p?.rating < filters.rating) return false;
       if (p?.price < priceRange[0] || p?.price > priceRange[1]) return false;
       if (filters.availability.length) {

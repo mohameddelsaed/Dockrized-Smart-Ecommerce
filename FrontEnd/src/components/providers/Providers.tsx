@@ -1,4 +1,6 @@
 "use client";
+
+import { Suspense } from "react";
 import {
   QueryClient,
   QueryClientProvider,
@@ -10,7 +12,12 @@ import { SessionProvider } from "next-auth/react";
 import { Toaster } from "../ui/sonner";
 import Footer from "../shared/websiteshared/footer";
 import Navbar from "@/components/shared/websiteshared/navbar";
-export default function Providers({ children }: { children: React.ReactNode }) {
+
+export default function Providers({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: {
@@ -23,9 +30,12 @@ export default function Providers({ children }: { children: React.ReactNode }) {
     <NuqsAdapter>
       <SessionProvider>
         <QueryClientProvider client={queryClient}>
-          <Navbar/>
-          {children }
-          <Footer />
+          <Suspense fallback={null}>
+            <Navbar />
+            {children}
+            <Footer />
+          </Suspense>
+
           <Toaster />
           <ReactQueryDevtools initialIsOpen={false} />
         </QueryClientProvider>

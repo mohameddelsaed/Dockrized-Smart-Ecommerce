@@ -32,9 +32,19 @@ const statusLabels = {
   delivered: "Delivered",
   cancelled: "Cancelled",
 };
+type OrderStatus = "processing" | "shipped" | "delivered" | "cancelled";
 
 // Swap for real data once the orders endpoint exists
-const orders = [
+const orders: {
+  id: string;
+  placedOn: string;
+  name: string;
+  price: string;
+  qty: number;
+  status: OrderStatus;
+  action: string;
+  icon: typeof Tablet;
+}[] = [
   {
     id: "MKT-2025-6842",
     placedOn: "Jun 16, 2026",

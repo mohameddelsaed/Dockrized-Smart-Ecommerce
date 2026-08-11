@@ -26,6 +26,8 @@ import { BundleItem } from "@/components/layouts/website/FBoughtTogheter";
 export interface Product {
   id: number;
   brand: string;
+    category?: string;
+
   title: string;
   frequentlyBoughtTogether?: BundleItem[];
   // Existing
@@ -43,8 +45,11 @@ export interface Product {
   isFavorite: boolean;
   stock: number;
 
-  // Existing optional fields
+  
+// Existing optional fields
   colors?: ProductColor[];
+  colour?: string;
+  capacity?: string;
   isNew?: boolean;
   badges?: string[];
 
