@@ -83,12 +83,12 @@ jobs:
         env:
           AZURE_HOST: ${{ secrets.AZURE_HOST }}
           AZURE_USER: ${{ secrets.AZURE_USER }}
-          AZURE_SSH_KEY: ${{ secrets.AZURE_SSH_KEY }}
+          AZURE_SSH_KEY_B64: ${{ secrets.AZURE_SSH_KEY_B64 }}
         run: |
           mkdir -p ~/.ssh
           chmod 700 ~/.ssh
 
-          echo "$AZURE_SSH_KEY" > ~/.ssh/azure_key
+          echo "$AZURE_SSH_KEY_B64" | base64 --decode > ~/.ssh/azure_key
           chmod 600 ~/.ssh/azure_key
 
           ssh-keyscan -H "$AZURE_HOST" >> ~/.ssh/known_hosts
