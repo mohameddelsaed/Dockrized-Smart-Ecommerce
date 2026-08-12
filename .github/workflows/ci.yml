@@ -1,14 +1,16 @@
-name: Smart Ecommerce CI
+name: Smart Ecommerce CI/CD
 
 on:
   push:
     branches:
       - main
+
   pull_request:
     branches:
       - main
 
 jobs:
+
   backend:
     name: Backend CI
     runs-on: ubuntu-latest
@@ -32,6 +34,7 @@ jobs:
 
       - name: Build backend Docker image
         run: docker build -t smart-ecommerce-backend:test .
+
 
   frontend:
     name: Frontend CI
@@ -63,3 +66,52 @@ jobs:
 
       - name: Build frontend Docker image
         run: docker build -t smart-ecommerce-frontend:test ./FrontEnd
+
+
+  deploy:
+    name: Deploy to Azure
+    runs-on: ubuntu-latest
+
+    needs:
+      - backend
+      - frontend
+
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+
+    steps:
+      - name: Deploy to Azure VM
+        env:
+          AZURE_HOST: ${{ secrets.AZURE_HOST }}
+          AZURE_USER: ${{ secrets.AZURE_USER }}
+          AZURE_SSH_KEY: ${{ secrets.AZURE_SSH_KEY }}
+        run: |
+          mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
+
+          echo "$AZURE_SSH_KEY" > ~/.ssh/azure_key
+          chmod 600 ~/.ssh/azure_key
+
+          ssh-keyscan -H "$AZURE_HOST" >> ~/.ssh/known_hosts
+
+          ssh -i ~/.ssh/azure_key "$AZURE_USER@$AZURE_HOST" << 'EOF'
+            set -e
+
+            cd ~/Smart-Ecommerce
+
+            echo "Pulling latest code..."
+            git fetch origin main
+            git reset --hard origin/main
+
+            echo "Building Docker images..."
+            docker compose build
+
+            echo "Starting containers..."
+            docker compose up -d
+
+            echo "Running database migrations..."
+            docker compose exec -T backend php artisan migrate --force
+
+            echo "Deployment completed successfully."
+
+            docker compose ps
+          EOF
