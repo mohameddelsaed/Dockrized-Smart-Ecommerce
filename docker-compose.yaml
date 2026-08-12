@@ -19,6 +19,9 @@ services:
 
 
   backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
     image: smart-ecommerce-backend:latest
     container_name: smart-ecommerce-backend
     restart: unless-stopped
@@ -32,6 +35,9 @@ services:
       - smart-ecommerce
 
   frontend:
+    build:
+      context: ./FrontEnd
+      dockerfile: Dockerfile
     image: smart-ecommerce-frontend:latest
     container_name: smart-ecommerce-frontend
     restart: unless-stopped
